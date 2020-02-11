@@ -1,0 +1,14 @@
+version: '3'
+services:
+  front:
+    build: .
+    container_name: hurricane-front
+    volumes:
+      - .:/hurricane-black-company:cached
+      - node_modules:/hurricane-black-company/node_modules:cached
+    ports:
+      - '3002:3000'
+
+volumes:
+  node_modules:
+    driver: local
