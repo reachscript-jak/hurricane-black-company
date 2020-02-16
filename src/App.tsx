@@ -6,7 +6,7 @@ import './App.css';
 const App = () => {
   const onClickApi = () => {
     axios
-      .get('http://localhost:8080/sample')
+      .get('http://localhost:8080/api/sample')
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };
@@ -14,11 +14,11 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>たいふ〜んぶらっくかんぱに〜</p>
+        <p>はりけ〜んぶらっくかんぱに〜</p>
         <button className="App-link" style={{ width: '200px', height: '80px' }} onClick={onClickApi}>
           <span style={{ fontSize: '1.4rem' }}>API実行</span>
         </button>
-        <p style={{ color: 'red' }}>(※)↑押したら「localhost:8080/sample」にリクエスト投げるようにしてる</p>
+        <p style={{ color: 'red' }}>(※)↑押したら「localhost:8080/api/sample」にリクエスト投げるようにしてる</p>
       </header>
     </div>
   );
