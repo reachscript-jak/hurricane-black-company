@@ -1,17 +1,21 @@
-## 実行について
+# Hurricane-Black-Company
 
-### Dockerfileのビルド(初回、Dockerfile変更時のみ)
-- 以下のコマンドを実行する
+## 必要なもの
 
-```
-$ make build
-```
+* Docker
 
-### Dockerコンテナの起動
-- 以下のコマンドを実行する
+## 環境構築手順
+
+### 開発環境の初期化
 
 ```
-$ make up
+make install
+```
+
+### 開発環境(Dockerコンテナ)を起動
+
+```
+make start
 ```
 
 ### アクセス
@@ -19,9 +23,65 @@ $ make up
 
 [http://localhost:3002](http://localhost:3002)
 
-### Dockerコンテナの停止
-- 以下のコマンドを実行する
+
+## その他コマンド
+
+### 開発環境(Dockerコンテナ)を停止
 
 ```
-$ make down
+make stop
+```
+
+### 開発環境(Dockerコンテナ)を削除
+
+```
+make down
+```
+
+### 開発環境を閲覧(Laravel)
+
+http://localhost:8080
+
+にアクセスする。
+
+### DBのマイグレーションを実行
+
+```
+make db-migrate
+```
+
+### DBのマイグレーションをロールバック
+
+```
+make db-rollback
+```
+
+### DBのマイグレーションをリセット
+
+```
+make db-reset
+```
+
+### PHPUnitを実行
+
+```
+make phpunit
+```
+
+### `php-cli` コンテナのコンソールを開く
+
+```
+make enter-php-cli
+```
+
+### `mysql` コンテナのコンソールを開く
+
+```
+make enter-mysql
+```
+
+### Dockerfileのビルド(Dockerfile変更時のみ)
+
+```
+make build
 ```
