@@ -18,7 +18,7 @@ const App = () => {
         <button className="App-link" style={{ width: '200px', height: '80px' }} onClick={onClickApi}>
           <span style={{ fontSize: '1.4rem' }}>API実行</span>
         </button>
-        <p style={{ color: 'red' }}>(※)↑押したら「localhost:8080/api/sample」にリクエスト投げるようにしてる</p>
+        <p style={{ color: 'red' }}>(※)↑押したら「localhost:8080/api/sample」にリクエスト投げるようにしているよ</p>
       </header>
     </div>
   );
