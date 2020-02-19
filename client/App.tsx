@@ -6,7 +6,7 @@ import './App.css';
 const App = () => {
   const onClickApi = () => {
     axios
-      .get('http://localhost:8080/api/sample')
+      .get(`${process.env.REACT_APP_API_URL}/sample`)
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };
