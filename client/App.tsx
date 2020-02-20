@@ -14,7 +14,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>はりけ〜んぶらっくかんぱに〜</p>
+        <p>はりけ〜んぶらっくかんぱに〜〜</p>
         <button className="App-link" style={{ width: '200px', height: '80px' }} onClick={onClickApi}>
           <span style={{ fontSize: '1.4rem' }}>API実行</span>
         </button>
