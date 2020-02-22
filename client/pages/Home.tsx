@@ -34,7 +34,7 @@ const Home = () => {
   };
 
   return (
-    <SCcontainer>
+    <>
       <SCbodyContainer>
         <Segment raised textAlign="center">
           <SCmenuContainer>
@@ -45,17 +45,9 @@ const Home = () => {
       <Button color="green" style={{ width: '200px', height: '80px' }} onClick={onClickApi}>
         <span style={{ fontSize: '1.4rem' }}>API実行</span>
       </Button>
-    </SCcontainer>
+    </>
   );
 };
-
-const SCcontainer = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #cefff9;
-`;
 
 const SCbodyContainer = styled(Container)`
   margin-top: 16px;
