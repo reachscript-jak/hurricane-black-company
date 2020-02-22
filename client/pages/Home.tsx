@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Image, Container, Segment, Tab } from 'semantic-ui-react';
+import { Button, Container, Segment, Tab } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import TabPopular from '../templates/TabPopular';
@@ -9,7 +9,7 @@ import TabNew from '../templates/TabNew';
 const Home = () => {
   const panes = [
     {
-      menuItem: '　　　　　人気順　　　　　',
+      menuItem: '　　　人気順　　　',
       render: () => (
         <Tab.Pane key="tabPopular" attached={false}>
           <TabPopular />
@@ -17,7 +17,7 @@ const Home = () => {
       ),
     },
     {
-      menuItem: '　　　　　新着順　　　　　',
+      menuItem: '　　　新着順　　　',
       render: () => (
         <Tab.Pane key="tabNew" attached={false}>
           <TabNew />
@@ -34,10 +34,7 @@ const Home = () => {
   };
 
   return (
-    <SCcontainer>
-      <Container fluid style={{ backgroundColor: '#00796b' }}>
-        <Image src={`${process.env.PUBLIC_URL}/img/haribura.png`} centered size="big" />
-      </Container>
+    <>
       <SCbodyContainer>
         <Segment raised textAlign="center">
           <SCmenuContainer>
@@ -48,17 +45,9 @@ const Home = () => {
       <Button color="green" style={{ width: '200px', height: '80px' }} onClick={onClickApi}>
         <span style={{ fontSize: '1.4rem' }}>API実行</span>
       </Button>
-    </SCcontainer>
+    </>
   );
 };
-
-const SCcontainer = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #cefff9;
-`;
 
 const SCbodyContainer = styled(Container)`
   margin-top: 16px;
