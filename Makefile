@@ -41,6 +41,10 @@ db-reset:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml run --rm php-cli php artisan migrate:reset
 .PHONY: db-reset
 
+db-seed:
+	docker-compose -f docker-compose.yml -f docker-compose.local.yml run --rm php-cli php artisan migrate --seed
+.PHONY: db-seed
+
 phpunit:
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d test-mysql & sleep 10
 	docker-compose -f docker-compose.yml -f docker-compose.local.yml run --rm php-cli ./vendor/bin/phpunit

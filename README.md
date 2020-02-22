@@ -62,6 +62,12 @@ make db-rollback
 make db-reset
 ```
 
+### DBのseederを実行
+
+```
+make db-seed
+```
+
 ### PHPUnitを実行
 
 ```
