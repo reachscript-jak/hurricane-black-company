@@ -1,20 +1,31 @@
-import React from 'react';
-import { List, Icon } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { List, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { Post } from '../../types/post';
+import PostService from '../../repository/post';
 
 type Props = {
-  data: Array<Post>;
+  count: number;
 };
 
 const TabPopular = (props: Props) => {
-  const { data } = props;
+  const { count } = props;
   const history = useHistory();
 
-  const onClickToDetail = () => {
-    history.push('/detail');
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const postFunc = async () => {
+      const res = await PostService.getPosts(count, '');
+      setData(res.data.posts);
+    };
+    postFunc();
+  }, [count]);
+
+  const onClickToDetail = (id: number) => {
+    history.push(`/detail/${id}`);
   };
 
   return (
@@ -23,7 +34,7 @@ const TabPopular = (props: Props) => {
         <List divided relaxed animated>
           {data.map((obj: Post) => {
             return (
-              <List.Item key={obj.id} onClick={onClickToDetail}>
+              <List.Item key={obj.id} onClick={() => onClickToDetail(obj.id)}>
                 <List.Content>
                   <List.Header as="h3">{obj.title}</List.Header>
                   <List.Description>
@@ -31,15 +42,21 @@ const TabPopular = (props: Props) => {
                   </List.Description>
                   <List.Description style={{ marginTop: '2px' }}>
                     <Icon name="thumbs down" color="grey" />
-                    ヒドイイネ {obj.favorite_count}　<Icon name="comment" color="grey" />
-                    コメント {obj.comment_count}
+                    ヒドイイネ {obj.favorites_count}　<Icon name="comment" color="grey" />
+                    コメント {obj.comments_count}
                   </List.Description>
                 </List.Content>
               </List.Item>
             );
           })}
         </List>
-      ) : null}
+      ) : (
+        <SCdimmerContainer>
+          <Dimmer active inverted>
+            <Loader inverted></Loader>
+          </Dimmer>
+        </SCdimmerContainer>
+      )}
     </SCcontainer>
   );
 };
@@ -48,6 +65,10 @@ const SCcontainer = styled.div`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const SCdimmerContainer = styled.div`
+  height: 200px;
 `;
 
 export default TabPopular;

@@ -1,15 +1,34 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Segment, Container, Header, Icon, Divider, Grid, Comment, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 import { COLOR_THEME } from '../../const';
+import DetailService from '../../repository/detail';
+import Persist from '../../persist';
 
 const Detail = () => {
+  const { id } = useParams();
+
+  const [data, setData] = useState();
   const [comment, setComment] = useState('');
   const [name, setName] = useState('');
-  const [isPushNonfavo, setIsPushNonfavo] = useState(false);
+  const [isPushNonfavo, setIsPushNonfavo] = useState(Persist.get(id ? id : '') !== null);
+
+  useEffect(() => {
+    const detailFunc = async () => {
+      if (!id) return;
+      const res = await DetailService.getDetail(parseInt(id));
+      setData(res.data);
+      // console.log(res.data);
+    };
+    detailFunc();
+  }, [id]);
 
   const onClickNonfavo = () => {
+    if (!id) return;
+    if (isPushNonfavo) return;
+    Persist.set(id?.toString(), true);
     setIsPushNonfavo(true);
   };
 
