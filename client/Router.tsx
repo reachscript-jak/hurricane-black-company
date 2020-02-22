@@ -14,7 +14,7 @@ const Router = () => {
         <HeaderLogo />
         <Switch>
           <Route path="/" exact children={<Home />} />
-          <Route path="/detail" children={<Detail />} />
+          <Route path="/detail/:id" children={<Detail />} />
           <Route path="/post" children={<Post />} />
         </Switch>
       </BrowserRouter>

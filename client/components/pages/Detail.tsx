@@ -4,26 +4,26 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
 import { COLOR_THEME } from '../../const';
-// import DetailService from '../../repository/detail';
+import DetailService from '../../repository/detail';
 import Persist from '../../persist';
 
 const Detail = () => {
   const { id } = useParams();
 
-  // const [data, setData] = useState();
+  const [data, setData] = useState();
   const [comment, setComment] = useState('');
   const [name, setName] = useState('');
   const [isPushNonfavo, setIsPushNonfavo] = useState(Persist.get(id ? id : '') !== null);
 
-  // useEffect(() => {
-  //   const detailFunc = async () => {
-  //     if (!id) return;
-  //     const res = await DetailService.getDetail(parseInt(id));
-  //     setData(res.data);
-  //     // console.log(res.data);
-  //   };
-  //   detailFunc();
-  // }, [id]);
+  useEffect(() => {
+    const detailFunc = async () => {
+      if (!id) return;
+      const res = await DetailService.getDetail(parseInt(id));
+      setData(res.data);
+      // console.log(res.data);
+    };
+    detailFunc();
+  }, [id]);
 
   const onClickNonfavo = () => {
     if (!id) return;
