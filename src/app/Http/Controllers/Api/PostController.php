@@ -7,10 +7,19 @@ use App\Eloquent\Favorite;
 use App\Eloquent\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request as GlobalRequest;
 
 class PostController extends Controller
 {
+
+    /**
+     * スレッド一覧を表示する
+     *
+     * @param Request $request
+     * @param Post $post
+     * @param Comment $comment
+     * @param Favorite $favorite
+     * @return Response
+     */
     public function index(Request $request, Post $post)
     {
         $count = $request->input('count');
@@ -28,14 +37,22 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
-    public function show(int $postId, Post $post, Comment $comment, Favorite $favorite)
+    /**
+     * スレッド詳細を取得する
+     *
+     * @param Request $request
+     * @param int $postId
+     * @return Response
+     */
+    public function show(Request $request, int $postId)
     {
-        $postinfo = $post->find($postId);
-        $comments = $comment->getComments($postId);
-        $favoriteCount = $favorite->getFavoriteCountByPostId($postId);
+        /** @var Post $postInfo */
+        $postInfo = Post::find($postId);
+        $comments = $postInfo->comments()->get();
+        $favoriteCount = $postInfo->favorites()->count();
 
         $data = [
-            'post' => $postinfo,
+            'post' => $postInfo,
             'comments' => $comments,
             'favoriteCount' => $favoriteCount
         ];
@@ -43,6 +60,13 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
+    /**
+     * スレッド投稿内容をpostテーブルに保存する
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return Response
+     */
     public function store(Request $request, Post $post)
     {
         $newPost = $post->createPost($request->all());
@@ -50,6 +74,23 @@ class PostController extends Controller
         $data = [
             'post' => $newPost,
         ];
+
+        return response()->json($data, 200);
+    }
+
+    /**
+     * スレッド内容更新
+     *
+     * @param Request $request
+     * @param int $postId
+     * @return Response
+     */
+    public function update(Request $request, int $postId)
+    {
+        $post = Post::find($postId);
+        $post->fill($request->all())->save();
+
+        $data = [];
 
         return response()->json($data, 200);
     }
