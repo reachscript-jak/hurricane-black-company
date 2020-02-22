@@ -18,6 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['api']], function() {
-    Route::get('sample', 'Api\PostController@index')->name('sample');
     Route::resource('post' , 'Api\PostController');
+    Route::resource('favorite' , 'Api\FavoriteController');
 });

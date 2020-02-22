@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     protected $fillable = [
+        'post_id',
     ];
 
     public function post()
@@ -18,5 +19,10 @@ class Favorite extends Model
     {
         $count = Favorite::where('post_id', $postId)->count();
         return $count;
+    }
+
+    public function createFavorite(array $request)
+    {
+        return Favorite::create($request);
     }
 }

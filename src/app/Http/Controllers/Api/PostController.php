@@ -16,8 +16,6 @@ class PostController extends Controller
      *
      * @param Request $request
      * @param Post $post
-     * @param Comment $comment
-     * @param Favorite $favorite
      * @return Response
      */
     public function index(Request $request, Post $post)
