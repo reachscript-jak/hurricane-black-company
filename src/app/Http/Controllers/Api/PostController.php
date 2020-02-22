@@ -11,6 +11,7 @@ use Request as GlobalRequest;
 
 class PostController extends Controller
 {
+    // スレッド一覧を表示する
     public function index(Request $request, Post $post, Comment $comment, Favorite $favorite)
     {
         $count = $request->input('count');
@@ -29,6 +30,7 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
+    // スレッド詳細を取得する
     public function show(int $postId, Post $post, Comment $comment, Favorite $favorite)
     {
         $postinfo = $post->find($postId);
@@ -44,6 +46,7 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
+    // スレッド投稿内容をpostテーブルに保存する
     public function store(Request $request, Post $post)
     {
         $newPost = $post->createPost($request->all());
@@ -51,6 +54,17 @@ class PostController extends Controller
         $data = [
             'post' => $newPost,
         ];
+
+        return response()->json($data, 200);
+    }
+
+    // スレッド内容更新
+    public function update(Request $request, $id)
+    {
+        $post = Post::find($id);
+        $post->fill($request->all())->save();   
+
+        $data = [];
 
         return response()->json($data, 200);
     }
