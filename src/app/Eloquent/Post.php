@@ -57,7 +57,7 @@ class Post extends Model
         return $this->hasMany('App\Eloquent\Favorite');
     }
 
-    public function getPost($count , $orderBy)
+    public function getPost($count, $orderBy)
     {
         if($count){
             $posts = Post::orderBy('id', $orderBy)->take($count)->get();
@@ -67,9 +67,9 @@ class Post extends Model
         return $posts;
     }
 
-    public function getPostInfo($post_id)
+    public function getPostInfo($postId)
     {
-        $postInfo = Post::findOrFail($post_id);
+        $postInfo = Post::findOrFail($postId);
         return $postInfo;
     }
 }

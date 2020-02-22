@@ -16,17 +16,21 @@ class PostController extends Controller
         $count = $request->input('count');
         
         $posts = $post->getPost($count , 'DESC');
-        return response()->json($posts, 200);
+        $data = [
+            'posts' => $posts
+        ];
+
+        return response()->json($data, 200);
     }
 
-    public function show(int $postId, Post $postObject, Comment $comment, Favorite $favorite)
+    public function show(int $postId, Post $post, Comment $comment, Favorite $favorite)
     {
-        $post = $postObject->find($postId);
+        $postinfo = $post->find($postId);
         $comments = $comment->getComments($postId);
-        $favoriteCount = $favorite->getFavoriteCount($postId);
+        $favoriteCount = $favorite->getFavoriteCountByPostId($postId);
 
         $data = [
-            'post' => $post,
+            'post' => $postinfo,
             'comments' => $comments,
             'favoriteCount' => $favoriteCount
         ];

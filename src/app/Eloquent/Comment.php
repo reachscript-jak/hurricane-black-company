@@ -15,9 +15,9 @@ class Comment extends Model
         return $this->belongsTo('App\Eloquent\Post');
     }
 
-    public function getComments($post_id, $orderBy = 'ASC')
+    public function getComments($postId, $orderBy = 'ASC')
     {
-        $comments = Comment::where('post_id', $post_id)->orderBy('id', $orderBy)->get();
+        $comments = Comment::where('post_id', $postId)->orderBy('id', $orderBy)->get();
         return $comments;
     }
 }
