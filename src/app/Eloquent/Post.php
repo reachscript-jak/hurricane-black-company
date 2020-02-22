@@ -72,5 +72,10 @@ class Post extends Model
         $postInfo = Post::findOrFail($postId);
         return $postInfo;
     }
+
+    public function createPost(array $formData)
+    {
+        return Post::create($formData);
+    }
 }
 

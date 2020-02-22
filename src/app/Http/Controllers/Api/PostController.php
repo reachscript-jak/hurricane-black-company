@@ -37,4 +37,16 @@ class PostController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function store(Request $request, Post $post)
+    {
+        $post = $post->createPost($request->all());
+
+        $data = [
+            'post' => $post,
+        ];
+
+        return response()->json($data, 200);
+    }
+
 }
