@@ -56,4 +56,21 @@ class Post extends Model
     {
         return $this->hasMany('App\Eloquent\Favorite');
     }
+
+    public function getPost($count , $orderBy)
+    {
+        if($count){
+            $posts = Post::orderBy('id', $orderBy)->take($count)->get();
+        } else {
+            $posts = Post::all();
+        }
+        return $posts;
+    }
+
+    public function getPostInfo($post_id)
+    {
+        $postInfo = Post::findOrFail($post_id);
+        return $postInfo;
+    }
 }
+

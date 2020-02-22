@@ -13,4 +13,10 @@ class Favorite extends Model
     {
         return $this->belongsTo('App\Eloquent\Post');
     }
+
+    public function getFavoriteCount($postId)
+    {
+        $count = Favorite::where('post_id', $postId)->count();
+        return $count;
+    }
 }
