@@ -57,20 +57,39 @@ class Post extends Model
         return $this->hasMany('App\Eloquent\Favorite');
     }
 
-    public function getPosts($count, $orderBy = 'ASC')
+    public function getPosts($count, $orderBy = ['id', 'DESC'])
     {
-        if($count){
-            $posts = Post::orderBy('id', $orderBy)->take($count)->get();
-        } else {
-            $posts = Post::all();
-        }
-        return $posts;
+        return Post::orderBy($orderBy[0], $orderBy[1])->take($count)->get();
+    }
+
+    public function getAllPosts($orderBy = ['id', 'DESC'])
+    {
+        return Post::orderBy($orderBy[0], $orderBy[1])->get()->all();
+    }
+
+    public function getAllPostsWithCommentsFavorite($count, $orderBy = ['id', 'DESC'])
+    {
+        return Post::withCount('favorites')
+            ->withCount('comments')
+            ->orderBy('favorites_count', 'DESC')
+            ->orderBy($orderBy[0], $orderBy[1])
+            ->take($count)
+            ->get();
+    }
+
+    public function getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count, $orderBy = ['id', 'DESC'])
+    {
+        return Post::withCount('favorites')
+            ->withCount('comments')
+            ->orderBy('favorites_count', 'DESC')
+            ->orderBy($orderBy[0], $orderBy[1])
+            ->take($count)
+            ->get();
     }
 
     public function getPostInfo($postId)
     {
-        $postInfo = Post::findOrFail($postId);
-        return $postInfo;
+        return Post::findOrFail($postId);
     }
 
     public function createPost(array $formData)

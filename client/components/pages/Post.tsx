@@ -1,10 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Container, Segment, Header, Divider, Grid, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import { COLOR_THEME } from '../../const';
+import PostService from '../../repository/post';
 
 const Post = () => {
+  const history = useHistory();
+
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
@@ -12,6 +16,15 @@ const Post = () => {
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
   const onChangeBody = (e: any) => setBody(e.target.value);
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+
+  const onSubmitPost = async () => {
+    const res = await PostService.registPost(title, body, name);
+    if (!res.error) {
+      history.push('/');
+    } else {
+      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+    }
+  };
 
   return (
     <SCcontainer>
@@ -22,15 +35,15 @@ const Post = () => {
         <Divider />
         <Grid centered>
           <Grid.Column mobile={16} tablet={16} computer={12}>
-            <Form>
+            <Form onSubmit={onSubmitPost}>
               <Form.Input label="タイトル" onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeTitle(e)} />
               <Form.TextArea label="本文" rows={5} onChange={(e: any) => onChangeBody(e)} />
               <Form.Input label="ハンドルネーム" onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)} />
               <SCpostButtonArea>
                 <Button
-                  content="コメントする"
+                  content="投稿する"
                   labelPosition="left"
-                  icon="edit"
+                  icon="pencil"
                   primary
                   disabled={title.length === 0 || body.length === 0 || name.length === 0}
                 />
