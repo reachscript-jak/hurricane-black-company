@@ -7,11 +7,19 @@ use App\Eloquent\Favorite;
 use App\Eloquent\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Request as GlobalRequest;
 
 class PostController extends Controller
 {
-    // スレッド一覧を表示する
+
+    /**
+     * スレッド一覧を表示する
+     * 
+     * @param Request $request
+     * @param Post $post
+     * @param Comment $comment
+     * @param Favorite $favorite
+     * @return Response
+     */
     public function index(Request $request, Post $post, Comment $comment, Favorite $favorite)
     {
         $count = $request->input('count');
@@ -30,23 +38,36 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
-    // スレッド詳細を取得する
-    public function show(int $postId, Post $post, Comment $comment, Favorite $favorite)
+    /**
+     * スレッド詳細を取得する
+     * 
+     * @param Request $request
+     * @param $postId
+     * @return Response
+     */
+    public function show(Request $request, $postId)
     {
-        $postinfo = $post->find($postId);
-        $comments = $comment->getComments($postId);
-        $favoriteCount = $favorite->getFavoriteCountByPostId($postId);
+        /** @var Post $postInfo */
+        $postInfo = Post::find($postId);
+        $comments = $postInfo->comments()->get();
+        $favoriteCount = $postInfo->favorites()->count();
 
         $data = [
-            'post' => $postinfo,
+            'post' => $postInfo,
             'comments' => $comments,
             'favoriteCount' => $favoriteCount
         ];
 
         return response()->json($data, 200);
     }
-
-    // スレッド投稿内容をpostテーブルに保存する
+    
+    /**
+     * スレッド投稿内容をpostテーブルに保存する
+     * 
+     * @param Request $request
+     * @param Post $post
+     * @return Response
+     */
     public function store(Request $request, Post $post)
     {
         $newPost = $post->createPost($request->all());
@@ -58,10 +79,16 @@ class PostController extends Controller
         return response()->json($data, 200);
     }
 
-    // スレッド内容更新
-    public function update(Request $request, $id)
+    /**
+     * スレッド内容更新
+     * 
+     * @param Request $request
+     * @param int $postId
+     * @return Response
+     */
+    public function update(Request $request, int $postId)
     {
-        $post = Post::find($id);
+        $post = Post::find($postId);
         $post->fill($request->all())->save();   
 
         $data = [];
