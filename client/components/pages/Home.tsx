@@ -1,40 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Segment, Tab, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import TabPopular from '../templates/TabPopular';
 import TabNew from '../templates/TabNew';
-import PostService from '../../repository/post';
 
 const Home = () => {
   const history = useHistory();
 
   const [count, setCount] = useState(15);
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    const postFunc = async () => {
-      const res = await PostService.getPosts(count, '');
-      setData(res.data.posts);
-    };
-    postFunc();
-  }, [count]);
 
   const panes = [
     {
       menuItem: '　　　人気順　　　',
       render: () => (
-        <Tab.Pane key="tabPopular" attached={false} loading={!data}>
-          <TabPopular data={data} />
+        <Tab.Pane key="tabPopular" attached={false}>
+          <TabPopular count={count} />
         </Tab.Pane>
       ),
     },
     {
       menuItem: '　　　新着順　　　',
       render: () => (
-        <Tab.Pane key="tabNew" attached={false} loading={!data}>
-          <TabNew data={data} />
+        <Tab.Pane key="tabNew" attached={false}>
+          <TabNew count={count} />
         </Tab.Pane>
       ),
     },
