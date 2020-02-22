@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'body', 'user_id',
+        'title', 'body', 'name', 'user_id',
     ];
 
     protected $casts = [
