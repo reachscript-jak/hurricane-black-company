@@ -1,9 +1,16 @@
 import React from 'react';
-import { List } from 'semantic-ui-react';
+import { List, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-const TabPopular = () => {
+import { Post } from '../../types/post';
+
+type Props = {
+  data: Array<Post>;
+};
+
+const TabPopular = (props: Props) => {
+  const { data } = props;
   const history = useHistory();
 
   const onClickToDetail = () => {
@@ -12,56 +19,27 @@ const TabPopular = () => {
 
   return (
     <SCcontainer>
-      <List divided relaxed animated>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-        <List.Item onClick={onClickToDetail}>
-          <List.Content>
-            <List.Header>ブラックストーリタイトル</List.Header>
-            <List.Description>ヒドイイネ　999　コメント　8888</List.Description>
-          </List.Content>
-        </List.Item>
-      </List>
+      {data ? (
+        <List divided relaxed animated>
+          {data.map((obj: Post) => {
+            return (
+              <List.Item key={obj.id} onClick={onClickToDetail}>
+                <List.Content>
+                  <List.Header as="h3">{obj.title}</List.Header>
+                  <List.Description>
+                    {obj.body.length > 50 ? `${obj.body.substr(0, 50)}...` : obj.body}
+                  </List.Description>
+                  <List.Description style={{ marginTop: '2px' }}>
+                    <Icon name="thumbs down" color="grey" />
+                    ヒドイイネ {obj.favorite_count}　<Icon name="comment" color="grey" />
+                    コメント {obj.comment_count}
+                  </List.Description>
+                </List.Content>
+              </List.Item>
+            );
+          })}
+        </List>
+      ) : null}
     </SCcontainer>
   );
 };
