@@ -9,7 +9,7 @@ import TabNew from '../templates/TabNew';
 const Home = () => {
   const panes = [
     {
-      menuItem: '　　　　　人気順　　　　　',
+      menuItem: '　　　人気順　　　',
       render: () => (
         <Tab.Pane key="tabPopular" attached={false}>
           <TabPopular />
@@ -17,7 +17,7 @@ const Home = () => {
       ),
     },
     {
-      menuItem: '　　　　　新着順　　　　　',
+      menuItem: '　　　新着順　　　',
       render: () => (
         <Tab.Pane key="tabNew" attached={false}>
           <TabNew />
