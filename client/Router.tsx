@@ -1,19 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Container, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import Home from './pages/Home';
-import Detail from './pages/Detail';
-import Post from './pages/Post';
+import HeaderLogo from './components/atoms/HeaderLogo';
+import Home from './components/pages/Home';
+import Detail from './components/pages/Detail';
+import Post from './components/pages/Post';
 
 const Router = () => {
   return (
     <SCcontainer>
-      <Container fluid style={{ backgroundColor: '#00796b' }}>
-        <Image src={`${process.env.PUBLIC_URL}/img/haribura.png`} centered size="big" />
-      </Container>
       <BrowserRouter>
+        <HeaderLogo />
         <Switch>
           <Route path="/" exact children={<Home />} />
           <Route path="/detail" children={<Detail />} />

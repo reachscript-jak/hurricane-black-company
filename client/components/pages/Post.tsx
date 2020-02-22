@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { Container, Segment, Header, Divider, Grid, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { COLOR_THEME } from '../const';
+import { COLOR_THEME } from '../../const';
 
 const Post = () => {
   const [title, setTitle] = useState('');

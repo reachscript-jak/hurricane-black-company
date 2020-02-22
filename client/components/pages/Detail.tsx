@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Segment, Container, Header, Icon, Divider, Grid, Comment, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { COLOR_THEME } from '../const';
+import { COLOR_THEME } from '../../const';
 
 const Detail = () => {
   const [comment, setComment] = useState('');
