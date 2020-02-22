@@ -121,13 +121,15 @@ const Detail = () => {
                       onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)}
                     />
                   </Form.Field>
-                  <Button
-                    content="コメントする"
-                    labelPosition="left"
-                    icon="edit"
-                    primary
-                    disabled={comment.length === 0 || name.length === 0}
-                  />
+                  <SCcommentButtonArea>
+                    <Button
+                      content="コメントする"
+                      labelPosition="left"
+                      icon="edit"
+                      primary
+                      disabled={comment.length === 0 || name.length === 0}
+                    />
+                  </SCcommentButtonArea>
                 </Form>
               </Comment.Group>
             </Grid.Column>
@@ -193,6 +195,11 @@ const SCcommentAuthorArea = styled.div`
 
 const SCcomment = styled.span`
   color: #777;
+`;
+
+const SCcommentButtonArea = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default Detail;
