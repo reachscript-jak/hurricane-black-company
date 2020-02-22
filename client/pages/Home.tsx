@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Image, Container, Segment, Tab } from 'semantic-ui-react';
+import { Button, Container, Segment, Tab } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import TabPopular from '../templates/TabPopular';
