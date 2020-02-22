@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'body', 'user_id',
+        'title', 'body', 'name', 'user_id',
     ];
 
     protected $casts = [
@@ -45,5 +45,15 @@ class Post extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Eloquent\Comment');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany('App\Eloquent\Favorite');
     }
 }
