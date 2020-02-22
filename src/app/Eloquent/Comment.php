@@ -20,4 +20,10 @@ class Comment extends Model
         $comments = Comment::where('post_id', $postId)->orderBy('id', $orderBy)->get();
         return $comments;
     }
+
+    public function getCommentCountByPostId($postId)
+    {
+        $commentCount = Comment::where('post_id', $postId)->count();
+        return $commentCount;
+    }
 }
