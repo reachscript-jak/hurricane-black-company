@@ -71,7 +71,6 @@ class Post extends Model
     {
         return Post::withCount('favorites')
             ->withCount('comments')
-            ->orderBy('favorites_count', 'DESC')
             ->orderBy($orderBy[0], $orderBy[1])
             ->take($count)
             ->get();
