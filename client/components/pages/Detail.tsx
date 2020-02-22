@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Segment, Container, Header, Icon, Divider, Grid, Comment, Form, Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { COLOR_THEME } from '../const';
+import { COLOR_THEME } from '../../const';
 
 const Detail = () => {
   const [comment, setComment] = useState('');
@@ -121,13 +121,15 @@ const Detail = () => {
                       onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)}
                     />
                   </Form.Field>
-                  <Button
-                    content="コメントする"
-                    labelPosition="left"
-                    icon="edit"
-                    primary
-                    disabled={comment.length === 0 || name.length === 0}
-                  />
+                  <SCcommentButtonArea>
+                    <Button
+                      content="コメントする"
+                      labelPosition="left"
+                      icon="edit"
+                      primary
+                      disabled={comment.length === 0 || name.length === 0}
+                    />
+                  </SCcommentButtonArea>
                 </Form>
               </Comment.Group>
             </Grid.Column>
@@ -193,6 +195,11 @@ const SCcommentAuthorArea = styled.div`
 
 const SCcomment = styled.span`
   color: #777;
+`;
+
+const SCcommentButtonArea = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default Detail;
