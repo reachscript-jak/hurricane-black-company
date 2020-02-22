@@ -11,11 +11,17 @@ use Request as GlobalRequest;
 
 class PostController extends Controller
 {
-    public function index(Request $request, Post $post)
+    public function index(Request $request, Post $post, Comment $comment, Favorite $favorite)
     {
         $count = $request->input('count');
-        
-        $posts = $post->getPost($count , 'DESC');
+        $posts = $post->getPosts($count, 'DESC');
+        foreach ($posts as $post){
+            $commentCount = $comment->getCommentCountByPostId($post->id);
+            $post['comment_count'] = $commentCount;
+            $favoriteCount = $favorite->getFavoriteCountByPostId($post->id);
+            $post['favorite_count'] = $favoriteCount;
+        }
+
         $data = [
             'posts' => $posts
         ];
