@@ -40,10 +40,10 @@ class PostController extends Controller
 
     public function store(Request $request, Post $post)
     {
-        $post = $post->createPost($request->all());
+        $newPost = $post->createPost($request->all());
 
         $data = [
-            'post' => $post,
+            'post' => $newPost,
         ];
 
         return response()->json($data, 200);
