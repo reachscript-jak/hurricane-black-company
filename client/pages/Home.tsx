@@ -35,9 +35,6 @@ const Home = () => {
 
   return (
     <SCcontainer>
-      <Container fluid style={{ backgroundColor: '#00796b' }}>
-        <Image src={`${process.env.PUBLIC_URL}/img/haribura.png`} centered size="big" />
-      </Container>
       <SCbodyContainer>
         <Segment raised textAlign="center">
           <SCmenuContainer>
