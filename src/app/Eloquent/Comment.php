@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'body', 'name',
+        'body', 'name', 'post_id',
     ];
 
     public function post()
@@ -30,6 +30,7 @@ class Comment extends Model
     public function createComment(array $commentData)
     {
         $post = Post::findOrFail($commentData['post_id']);
-        return $post->comments()->create($commentData);
+        $comment = $post->comments()->create($commentData);
+        return $comment;
     }
 }
