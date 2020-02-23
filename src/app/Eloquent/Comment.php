@@ -26,4 +26,10 @@ class Comment extends Model
         $commentCount = Comment::where('post_id', $postId)->count();
         return $commentCount;
     }
+
+    public function createComment(array $commentData)
+    {
+        $post = Post::findOrFail($commentData['post_id']);
+        return $post->comments()->create($commentData);
+    }
 }
