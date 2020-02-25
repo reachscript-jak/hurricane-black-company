@@ -29,8 +29,6 @@ class Comment extends Model
 
     public function createComment(array $commentData)
     {
-        $post = Post::findOrFail($commentData['post_id']);
-        $comment = $post->comments()->create($commentData);
-        return $comment;
+        return  Comment::create($commentData);
     }
 }
