@@ -1,7 +1,20 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
-import { Segment, Container, Header, Icon, Divider, Grid, Comment, Form, Button } from 'semantic-ui-react';
+import {
+  Segment,
+  Container,
+  Header,
+  Icon,
+  Divider,
+  Grid,
+  Comment,
+  Form,
+  Button,
+  Dimmer,
+  Loader,
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import { COLOR_THEME } from '../../const';
 import DetailService from '../../repository/detail';
@@ -20,7 +33,7 @@ const Detail = () => {
       if (!id) return;
       const res = await DetailService.getDetail(parseInt(id));
       setData(res.data);
-      // console.log(res.data);
+      console.log(res.data);
     };
     detailFunc();
   }, [id]);
@@ -38,122 +51,108 @@ const Detail = () => {
   return (
     <SCcontainer>
       <Segment raised textAlign="center">
-        <Header as="h2" style={{ color: COLOR_THEME }}>
-          ブラックストーリータイトル
-        </Header>
-        <SCnameArea>
-          <div>
-            <Icon name="user" color="grey" />
-            <SCname>会社潰すマン</SCname>
-          </div>
-          <p>2020年2月22日 23:37</p>
-        </SCnameArea>
-        <Divider />
-        <SCpostArea>
-          <Grid centered>
-            <Grid.Column mobile={16} tablet={16} computer={12}>
-              <p>
-                こんなことがありました！
-                <br />
-                <br />
-                電車が止まっているので出社できないと伝えたら「タクシーを使ってきてくれ」と言われたああああああああああああああああああああああああああああ
-              </p>
-            </Grid.Column>
-          </Grid>
-        </SCpostArea>
-        <Divider horizontal>
-          <Header as="h4">
-            <SCfavoArea>
-              <SCicon>
-                <Icon
-                  name="thumbs down"
-                  size="large"
-                  circular
-                  style={{ color: isPushNonfavo ? COLOR_THEME : 'grey' }}
-                  onClick={onClickNonfavo}
-                />
-              </SCicon>
-              <SCfavo>1000 ヒドイイネ！</SCfavo>
-            </SCfavoArea>
-          </Header>
-        </Divider>
+        {data ? (
+          <>
+            <Header as="h2" style={{ color: COLOR_THEME }}>
+              {data.post.title}
+            </Header>
+            <SCnameArea>
+              <div>
+                <Icon name="user" color="grey" />
+                <SCname>{data.post.name}</SCname>
+              </div>
+              <p>{dayjs(data.post.created_at).format('YYYY年MM月DD日 HH:mm:ss')}</p>
+            </SCnameArea>
+            <Divider />
+            <SCpostArea>
+              <Grid centered container>
+                <Grid.Column mobile={16} tablet={16} computer={10}>
+                  <p>{data.post.body}</p>
+                </Grid.Column>
+              </Grid>
+            </SCpostArea>
+            <Divider horizontal>
+              <Header as="h4">
+                <SCfavoArea>
+                  <SCicon>
+                    <Icon
+                      name="thumbs down"
+                      size="large"
+                      circular
+                      style={{ color: isPushNonfavo ? COLOR_THEME : 'grey' }}
+                      onClick={onClickNonfavo}
+                    />
+                  </SCicon>
+                  <SCfavo>{data.favoriteCount} ヒドイイネ！</SCfavo>
+                </SCfavoArea>
+              </Header>
+            </Divider>
 
-        <SCcommentArea>
-          <Grid centered>
-            <Grid.Column mobile={16} tablet={16} computer={16}>
-              <Comment.Group>
-                <Header as="h3" dividing>
-                  コメント一覧
-                </Header>
-                <Comment>
-                  <Comment.Content>
-                    <SCcommentAuthorArea>
-                      <Comment.Author>山田太郎ちゃん</Comment.Author>
-                      <Comment.Metadata>2020年2月13日 18:28</Comment.Metadata>
-                    </SCcommentAuthorArea>
-                    <Comment.Text>
-                      <SCcomment>すっごいひどいね！</SCcomment>
-                    </Comment.Text>
-                  </Comment.Content>
-                </Comment>
-                <Comment>
-                  <Comment.Content>
-                    <SCcommentAuthorArea>
-                      <Comment.Author>小泉しんいちろう</Comment.Author>
-                      <Comment.Metadata>2020年2月19日 1:27</Comment.Metadata>
-                    </SCcommentAuthorArea>
-                    <Comment.Text>
-                      <SCcomment>
-                        反省しているということは反省しているということです。。。。。。。。。。。。。。。。。。。。
-                      </SCcomment>
-                    </Comment.Text>
-                  </Comment.Content>
-                </Comment>
-                <Comment>
-                  <Comment.Content>
-                    <SCcommentAuthorArea>
-                      <Comment.Author>IKKO</Comment.Author>
-                      <Comment.Metadata>2020年2月24日 14:55</Comment.Metadata>
-                    </SCcommentAuthorArea>
-                    <Comment.Text>
-                      <SCcomment>まぼろし〜〜〜〜〜〜！！！</SCcomment>
-                    </Comment.Text>
-                  </Comment.Content>
-                </Comment>
-                <Comment>
-                  <Comment.Content>
-                    <SCcommentAuthorArea>
-                      <Comment.Author>犬好き子</Comment.Author>
-                      <Comment.Metadata>2020年2月29日 11:11</Comment.Metadata>
-                    </SCcommentAuthorArea>
-                    <Comment.Text>
-                      <SCcomment>チワワよりダックスフンドよりアイリッシュセターだよね♡</SCcomment>
-                    </Comment.Text>
-                  </Comment.Content>
-                </Comment>
-                <br />
-                <Form reply>
-                  <Form.TextArea onChange={(e: any) => onChangeComment(e)} />
-                  <Form.Field>
-                    <input
-                      placeholder="ハンドルネーム"
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)}
-                    />
-                  </Form.Field>
-                  <SCcommentButtonArea>
-                    <Button
-                      content="コメントする"
-                      labelPosition="left"
-                      icon="edit"
-                      primary
-                      disabled={comment.length === 0 || name.length === 0}
-                    />
-                  </SCcommentButtonArea>
-                </Form>
-              </Comment.Group>
-            </Grid.Column>
-          </Grid>
-        </SCcommentArea>
+            <SCcommentArea>
+              <Grid container>
+                <Grid.Column mobile={16} tablet={16} computer={16}>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Comment.Group style={{ width: '100%' }}>
+                      <Header as="h3" dividing>
+                        コメント一覧
+                      </Header>
+                      {data.comments.length > 0 ? (
+                        data.comments.map((obj: any) => (
+                          <Comment>
+                            <Comment.Content>
+                              <SCcommentAuthorArea>
+                                <Comment.Author>{obj.name}</Comment.Author>
+                                <Comment.Metadata>
+                                  {dayjs(obj.created_at).format('YYYY年MM月DD日 HH:mm:ss')}
+                                </Comment.Metadata>
+                              </SCcommentAuthorArea>
+                              <Comment.Text>
+                                <SCcomment>{obj.body}</SCcomment>
+                              </Comment.Text>
+                            </Comment.Content>
+                          </Comment>
+                        ))
+                      ) : (
+                        <Comment>
+                          <Comment.Content>
+                            <SCcommentAuthorArea>
+                              <Comment.Author>コメントはまだありません</Comment.Author>
+                            </SCcommentAuthorArea>
+                          </Comment.Content>
+                        </Comment>
+                      )}
+                      <br />
+                      <Form reply>
+                        <Form.TextArea onChange={(e: any) => onChangeComment(e)} />
+                        <Form.Field>
+                          <input
+                            placeholder="ハンドルネーム"
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)}
+                          />
+                        </Form.Field>
+                        <SCcommentButtonArea>
+                          <Button
+                            content="コメントする"
+                            labelPosition="left"
+                            icon="edit"
+                            primary
+                            disabled={comment.length === 0 || name.length === 0}
+                          />
+                        </SCcommentButtonArea>
+                      </Form>
+                    </Comment.Group>
+                  </div>
+                </Grid.Column>
+              </Grid>
+            </SCcommentArea>
+          </>
+        ) : (
+          <SCdimmerContainer>
+            <Dimmer active inverted>
+              <Loader inverted></Loader>
+            </Dimmer>
+          </SCdimmerContainer>
+        )}
       </Segment>
     </SCcontainer>
   );
@@ -219,6 +218,10 @@ const SCcomment = styled.span`
 const SCcommentButtonArea = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const SCdimmerContainer = styled.div`
+  height: 200px;
 `;
 
 export default Detail;
