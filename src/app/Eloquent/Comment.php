@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'body', 'name',
+        'body', 'name', 'post_id',
     ];
 
     public function post()
@@ -25,5 +25,10 @@ class Comment extends Model
     {
         $commentCount = Comment::where('post_id', $postId)->count();
         return $commentCount;
+    }
+
+    public function createComment(array $commentData)
+    {
+        return  Comment::create($commentData);
     }
 }
