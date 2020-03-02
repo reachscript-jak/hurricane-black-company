@@ -98,7 +98,7 @@ const Detail = () => {
                       </Header>
                       {data.comments.length > 0 ? (
                         data.comments.map((obj: any) => (
-                          <Comment>
+                          <Comment key={obj.id}>
                             <Comment.Content>
                               <SCcommentAuthorArea>
                                 <Comment.Author>{obj.name}</Comment.Author>
