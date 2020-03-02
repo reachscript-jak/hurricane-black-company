@@ -35,7 +35,6 @@ const Detail = () => {
       if (!id) return;
       const res = await DetailService.getDetail(parseInt(id));
       setData(res.data);
-      console.log(res.data);
     };
     detailFunc();
   }, [id]);

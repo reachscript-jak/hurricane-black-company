@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Container, Segment, Header, Divider, Grid, Form, Button } from 'semantic-ui-react';
+import React, { ChangeEvent, useState, FormEvent } from 'react';
+import { Container, Segment, Header, Divider, Grid, Form, Button, TextAreaProps } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -14,7 +14,10 @@ const Post = () => {
   const [name, setName] = useState('');
 
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
-  const onChangeBody = (e: any) => setBody(e.target.value);
+  const onChangeBody = (data: TextAreaProps) => {
+    if (!data.value || typeof data.value === 'number') return;
+    setBody(data.value);
+  };
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
   const onSubmitPost = async () => {
@@ -37,7 +40,11 @@ const Post = () => {
           <Grid.Column mobile={16} tablet={16} computer={12}>
             <Form onSubmit={onSubmitPost}>
               <Form.Input label="タイトル" onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeTitle(e)} />
-              <Form.TextArea label="本文" rows={5} onChange={(e: any) => onChangeBody(e)} />
+              <Form.TextArea
+                label="本文"
+                rows={5}
+                onChange={(_e: FormEvent<HTMLTextAreaElement>, data: TextAreaProps) => onChangeBody(data)}
+              />
               <Form.Input label="ハンドルネーム" onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeName(e)} />
               <SCpostButtonArea>
                 <Button
