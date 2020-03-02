@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import {
   Segment,
   Container,
@@ -11,6 +11,7 @@ import {
   Button,
   Dimmer,
   Loader,
+  TextAreaProps,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -45,7 +46,10 @@ const Detail = () => {
     setIsPushNonfavo(true);
   };
 
-  const onChangeComment = (e: any) => setComment(e.target.value);
+  const onChangeComment = (data: TextAreaProps) => {
+    if (!data.value || typeof data.value === 'number') return;
+    setComment(data.value);
+  };
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
   return (
@@ -123,7 +127,9 @@ const Detail = () => {
                       )}
                       <br />
                       <Form reply>
-                        <Form.TextArea onChange={(e: any) => onChangeComment(e)} />
+                        <Form.TextArea
+                          onChange={(_e: FormEvent<HTMLTextAreaElement>, data: TextAreaProps) => onChangeComment(data)}
+                        />
                         <Form.Field>
                           <input
                             placeholder="ハンドルネーム"
