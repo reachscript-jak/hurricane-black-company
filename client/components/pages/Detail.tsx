@@ -18,6 +18,7 @@ import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import { COLOR_THEME } from '../../const';
+import { Comment as CommentType } from '../../types/comment';
 import DetailService from '../../repository/detail';
 import Persist from '../../persist';
 
@@ -101,7 +102,7 @@ const Detail = () => {
                         コメント一覧
                       </Header>
                       {data.comments.length > 0 ? (
-                        data.comments.map((obj: any) => (
+                        data.comments.map((obj: CommentType) => (
                           <Comment key={obj.id}>
                             <Comment.Content>
                               <SCcommentAuthorArea>
