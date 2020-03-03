@@ -13,7 +13,7 @@ import {
   Loader,
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import { COLOR_THEME } from '../../const';
@@ -21,8 +21,6 @@ import DetailService from '../../repository/detail';
 import Persist from '../../persist';
 
 const Detail = () => {
-  const history = useHistory();
-
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -54,7 +52,7 @@ const Detail = () => {
     if (!id) return;
     const res = await DetailService.registComment(parseInt(id), comment, name);
     if (!res.error) {
-      history.push(`/`);
+      window.location.reload();
     } else {
       alert(res.errorMessages !== null ? res.errorMessages[0] : '');
     }
