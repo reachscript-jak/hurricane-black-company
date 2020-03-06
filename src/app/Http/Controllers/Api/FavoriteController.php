@@ -44,7 +44,6 @@ class FavoriteController extends Controller
         ];
 
         return response()->json($data, 200);
-
     }
 
     /**

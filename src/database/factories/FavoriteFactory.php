@@ -8,7 +8,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Favorite::class, function (Faker $faker) {
     return [];
-
 });
 
 $factory->state(Favorite::class, 'with_author', function (Faker $faker) {
