@@ -13,12 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::group(['middleware' => ['api']], function () {
-    Route::resource('post', 'Api\PostController');
-    Route::resource('favorite', 'Api\FavoriteController');
-    Route::resource('comment', 'Api\CommentController');
+Route::group(['middleware' => ['api']], function() {
+    Route::resource('/post', 'Api\PostController', ['except' => ['edit','create']]);
+    Route::resource('/favorite', 'Api\FavoriteController', ['only' => ['store']]);
+    Route::resource('/comment' , 'Api\CommentController', ['only' => ['store']]);
 });

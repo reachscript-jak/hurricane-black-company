@@ -11,11 +11,11 @@
 |
 */
 
-Auth::routes([
-    'reset' => false,
-    'verify' => false,
-]);
+// Auth::routes([
+//     'reset' => false,
+//     'verify' => false,
+// ]);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
