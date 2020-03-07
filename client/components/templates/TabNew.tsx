@@ -24,8 +24,8 @@ const TabNew = (props: Props) => {
     postFunc();
   }, [count]);
 
-  const onClickToDetail = () => {
-    history.push('/detail');
+  const onClickToDetail = (id: number) => {
+    history.push(`/detail/${id}`);
   };
 
   return (
@@ -34,7 +34,7 @@ const TabNew = (props: Props) => {
         <List divided relaxed animated>
           {data.map((obj: Post) => {
             return (
-              <List.Item key={obj.id} onClick={onClickToDetail}>
+              <List.Item key={obj.id} onClick={() => onClickToDetail(obj.id)}>
                 <List.Content>
                   <List.Header as="h3">{obj.title}</List.Header>
                   <List.Description>
