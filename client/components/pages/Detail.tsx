@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 
 import { COLOR_THEME } from '../../const';
 import DetailService from '../../repository/detail';
+import favorite from '../../repository/favorite';
 import Persist from '../../persist';
 
 const Detail = () => {
@@ -38,10 +39,14 @@ const Detail = () => {
     detailFunc();
   }, [id]);
 
-  const onClickNonfavo = () => {
+  const onClickNonfavo = async () => {
     if (!id) return;
     if (isPushNonfavo) return;
-    Persist.set(id?.toString(), true);
+    await favorite.registFavorite(parseInt(id))
+    Persist.set(id?.toString(), !isPushNonfavo);
+    const favoriteCount = data.favoriteCount + 1
+    const newData = {...data, favoriteCount}
+    setData(newData)
     setIsPushNonfavo(true);
   };
 
