@@ -28,4 +28,35 @@ export default {
       };
     }
   },
+  async registComment(post_id: number, body: string, name: string): Promise<SuccessResult<null> | ErrorResult> {
+    const response = await axiosInstance
+      .post(`/comment`, {
+        post_id,
+        body,
+        name,
+      })
+      .catch((e: AxiosError) => {
+        if (e.isAxiosError) {
+          return {
+            error: true,
+            errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
+            status: 500,
+            data: null,
+          };
+        }
+      });
+    if (response?.status === 200) {
+      return {
+        error: false,
+        data: null,
+        errorMessages: null,
+      };
+    } else {
+      return {
+        error: true,
+        data: null,
+        errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
+      };
+    }
+  },
 };

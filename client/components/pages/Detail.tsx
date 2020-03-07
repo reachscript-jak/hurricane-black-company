@@ -52,6 +52,16 @@ const Detail = () => {
   };
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
+  const onSubmitComment = async () => {
+    if (!id) return;
+    const res = await DetailService.registComment(parseInt(id), comment, name);
+    if (!res.error) {
+      window.location.reload();
+    } else {
+      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+    }
+  };
+
   return (
     <SCcontainer>
       <Segment raised textAlign="center">
