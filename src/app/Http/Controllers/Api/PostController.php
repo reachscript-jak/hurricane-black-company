@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-
     /**
      * スレッド一覧を表示する
      *
@@ -22,7 +21,7 @@ class PostController extends Controller
     {
         $count = $request->input('count');
         $orderBy = $request->input('order_by');
-        if($orderBy === 'new'){
+        if ($orderBy === 'new') {
             $posts = $post->getAllPostsWithCommentsFavorite($count);
         } else {
             $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count);
@@ -92,5 +91,4 @@ class PostController extends Controller
 
         return response()->json($data, 200);
     }
-
 }
