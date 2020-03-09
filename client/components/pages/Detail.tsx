@@ -42,12 +42,16 @@ const Detail = () => {
   const onClickNonfavo = async () => {
     if (!id) return;
     if (isPushNonfavo) return;
-    await favorite.registFavorite(parseInt(id))
-    Persist.set(id?.toString(), !isPushNonfavo);
-    const favoriteCount = data.favoriteCount + 1
-    const newData = {...data, favoriteCount}
-    setData(newData)
-    setIsPushNonfavo(true);
+    const res = await favorite.registFavorite(parseInt(id));
+    if (!res.error) {
+      Persist.set(id?.toString(), !isPushNonfavo);
+      const favoriteCount = data.favoriteCount + 1;
+      const newData = { ...data, favoriteCount };
+      setData(newData);
+      setIsPushNonfavo(true);
+    } else {
+      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+    }
   };
 
   const onChangeComment = (e: any) => setComment(e.target.value);

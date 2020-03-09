@@ -1,17 +1,14 @@
 import { AxiosError } from 'axios';
-import { SuccessResult, ErrorResult } from '../types/api';
+
 import axiosInstance from './axiosInstance';
+import { internalServerError, genericError } from './share';
+import { SuccessResult, ErrorResult } from '../types/api';
 
 export default {
   async getDetail(id: number): Promise<SuccessResult<any> | ErrorResult> {
     const response = await axiosInstance.get(`/post/${id}`).catch((e: AxiosError) => {
       if (e.isAxiosError) {
-        return {
-          error: true,
-          errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-          status: 500,
-          data: null,
-        };
+        return internalServerError;
       }
     });
     if (response?.status === 200) {
@@ -21,11 +18,7 @@ export default {
         errorMessages: null,
       };
     } else {
-      return {
-        error: true,
-        data: null,
-        errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-      };
+      return genericError;
     }
   },
 };
