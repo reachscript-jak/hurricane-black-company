@@ -1,17 +1,14 @@
 import { AxiosError } from 'axios';
-import { SuccessResult, ErrorResult } from '../types/api';
+
 import axiosInstance from '../repository/axiosInstance';
+import { internalServerError, genericError } from './share';
+import { SuccessResult, ErrorResult } from '../types/api';
 
 export default {
   async getPosts(count: number, orderBy: string): Promise<SuccessResult<any> | ErrorResult> {
     const response = await axiosInstance.get(`/post?count=${count}&order_by=${orderBy}`).catch((e: AxiosError) => {
       if (e.isAxiosError) {
-        return {
-          error: true,
-          errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-          status: 500,
-          data: null,
-        };
+        return internalServerError;
       }
     });
     if (response?.status === 200) {
@@ -21,11 +18,7 @@ export default {
         errorMessages: null,
       };
     } else {
-      return {
-        error: true,
-        data: null,
-        errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-      };
+      return genericError;
     }
   },
   async registPost(title: string, body: string, name: string): Promise<SuccessResult<null> | ErrorResult> {
@@ -37,12 +30,7 @@ export default {
       })
       .catch((e: AxiosError) => {
         if (e.isAxiosError) {
-          return {
-            error: true,
-            errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-            status: 500,
-            data: null,
-          };
+          return internalServerError;
         }
       });
     if (response?.status === 200) {
@@ -52,11 +40,7 @@ export default {
         errorMessages: null,
       };
     } else {
-      return {
-        error: true,
-        data: null,
-        errorMessages: ['システムエラーが発生しました。時間をおいて再度お試しください。'],
-      };
+      return genericError;
     }
   },
 };

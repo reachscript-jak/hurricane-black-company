@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { COLOR_THEME } from '../../const';
 import { Comment as CommentType } from '../../types/comment';
 import DetailService from '../../repository/detail';
+import favorite from '../../repository/favorite';
 import Persist from '../../persist';
 
 const Detail = () => {
@@ -39,11 +40,19 @@ const Detail = () => {
     detailFunc();
   }, [id]);
 
-  const onClickNonfavo = () => {
+  const onClickNonfavo = async () => {
     if (!id) return;
     if (isPushNonfavo) return;
-    Persist.set(id?.toString(), true);
-    setIsPushNonfavo(true);
+    const res = await favorite.registFavorite(parseInt(id));
+    if (!res.error) {
+      Persist.set(id?.toString(), !isPushNonfavo);
+      const favoriteCount = data.favoriteCount + 1;
+      const newData = { ...data, favoriteCount };
+      setData(newData);
+      setIsPushNonfavo(true);
+    } else {
+      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+    }
   };
 
   const onChangeComment = (data: TextAreaProps) => {
