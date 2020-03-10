@@ -17,8 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['api']], function () {
-    Route::resource('post', 'Api\PostController');
-    Route::resource('favorite', 'Api\FavoriteController');
-    Route::resource('comment', 'Api\CommentController');
+Route::group(['middleware' => ['api']], function() {
+    Route::resource('post' , 'Api\PostController');
+    Route::get('post/{post}' , 'Api\PostController@search');
+    Route::resource('favorite' , 'Api\FavoriteController');
+    Route::resource('comment' , 'Api\CommentController');
 });

@@ -95,4 +95,14 @@ class Post extends Model
     {
         return Post::create($formData);
     }
+
+    public function getSearchItem($keyword, $orderBy = ['created_at', 'DESC'])
+    {
+        return Post::withCount('favorites')
+            ->where('title', 'LIKE', "%{$keyword}%")
+            ->orWhere('name', 'LIKE', "%{$keyword}%")
+            ->orderBy('favorites_count', 'DESC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
 }

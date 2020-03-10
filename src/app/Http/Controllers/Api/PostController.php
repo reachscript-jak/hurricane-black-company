@@ -91,4 +91,26 @@ class PostController extends Controller
 
         return response()->json($data, 200);
     }
+
+    /**
+     * 検索機能
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request, Post $post)
+    {
+        $keyword = $request->input('keyword');
+        $orderBy = $request->input('order_by');
+
+        if (!empty($keyword)) {
+            $posts = $post->getSearchItem($keyword, $orderBy);
+        }
+
+        $data = [
+            'posts' => $posts
+        ];
+
+        return response()->json($data, 200);
+    }
 }
