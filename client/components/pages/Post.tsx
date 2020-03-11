@@ -2,12 +2,14 @@ import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { Container, Segment, Header, Divider, Grid, Form, Button, TextAreaProps } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { useAlert, types } from 'react-alert';
 
 import { COLOR_THEME } from '../../const';
 import PostService from '../../repository/post';
 
 const Post = () => {
   const history = useHistory();
+  const reactAlert = useAlert();
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -23,9 +25,15 @@ const Post = () => {
   const onSubmitPost = async () => {
     const res = await PostService.registPost(title, body, name);
     if (!res.error) {
+      reactAlert.show('ブラックストーリーを投稿しました', {
+        type: 'success',
+      });
       history.push('/');
     } else {
-      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+      if (!res.errorMessages) return;
+      reactAlert.show(res.errorMessages[0], {
+        type: types.ERROR,
+      });
     }
   };
 

@@ -16,7 +16,7 @@ import {
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useAlert } from 'react-alert';
+import { useAlert, types } from 'react-alert';
 
 import { COLOR_THEME } from '../../const';
 import { Comment as CommentType } from '../../types/comment';
@@ -53,7 +53,10 @@ const Detail = () => {
       setData(newData);
       setIsPushNonfavo(true);
     } else {
-      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+      if (!res.errorMessages) return;
+      reactAlert.show(res.errorMessages[0], {
+        type: types.ERROR,
+      });
     }
   };
 
@@ -69,7 +72,10 @@ const Detail = () => {
     if (!res.error) {
       window.location.reload();
     } else {
-      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+      if (!res.errorMessages) return;
+      reactAlert.show(res.errorMessages[0], {
+        type: types.ERROR,
+      });
     }
   };
 
