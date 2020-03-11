@@ -16,6 +16,7 @@ import {
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useAlert } from 'react-alert';
 
 import { COLOR_THEME } from '../../const';
 import { Comment as CommentType } from '../../types/comment';
@@ -24,6 +25,7 @@ import favorite from '../../repository/favorite';
 import Persist from '../../persist';
 
 const Detail = () => {
+  const reactAlert = useAlert();
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -145,7 +147,7 @@ const Detail = () => {
                         </Comment>
                       )}
                       <br />
-                      <Form reply>
+                      <Form onSubmit={onSubmitComment}>
                         <Form.TextArea
                           onChange={(_e: FormEvent<HTMLTextAreaElement>, data: TextAreaProps) => onChangeComment(data)}
                         />
