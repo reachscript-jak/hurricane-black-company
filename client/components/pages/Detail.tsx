@@ -16,6 +16,7 @@ import {
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useAlert, types } from 'react-alert';
 
 import { COLOR_THEME } from '../../const';
 import { Comment as CommentType } from '../../types/comment';
@@ -24,6 +25,7 @@ import favorite from '../../repository/favorite';
 import Persist from '../../persist';
 
 const Detail = () => {
+  const reactAlert = useAlert();
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -51,7 +53,10 @@ const Detail = () => {
       setData(newData);
       setIsPushNonfavo(true);
     } else {
-      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+      if (!res.errorMessages) return;
+      reactAlert.show(res.errorMessages[0], {
+        type: types.ERROR,
+      });
     }
   };
 
@@ -67,7 +72,10 @@ const Detail = () => {
     if (!res.error) {
       window.location.reload();
     } else {
-      alert(res.errorMessages !== null ? res.errorMessages[0] : '');
+      if (!res.errorMessages) return;
+      reactAlert.show(res.errorMessages[0], {
+        type: types.ERROR,
+      });
     }
   };
 
@@ -145,7 +153,7 @@ const Detail = () => {
                         </Comment>
                       )}
                       <br />
-                      <Form reply>
+                      <Form onSubmit={onSubmitComment}>
                         <Form.TextArea
                           onChange={(_e: FormEvent<HTMLTextAreaElement>, data: TextAreaProps) => onChangeComment(data)}
                         />
