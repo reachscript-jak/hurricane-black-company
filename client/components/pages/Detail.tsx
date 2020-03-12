@@ -98,7 +98,7 @@ const Detail = () => {
             <SCpostArea>
               <Grid centered container>
                 <Grid.Column mobile={16} tablet={16} computer={10}>
-                  <p>{data.post.body}</p>
+                  <SCpostContent>{data.post.body}</SCpostContent>
                 </Grid.Column>
               </Grid>
             </SCpostArea>
@@ -214,6 +214,10 @@ const SCpostArea = styled.div`
   padding-bottom: 30px;
 `;
 
+const SCpostContent = styled.p`
+  white-space: pre-wrap;
+`;
+
 const SCfavoArea = styled.div`
   display: flex;
   align-items: center;
@@ -246,6 +250,7 @@ const SCcommentAuthorArea = styled.div`
 
 const SCcomment = styled.span`
   color: #777;
+  white-space: pre-wrap;
 `;
 
 const SCcommentButtonArea = styled.div`
