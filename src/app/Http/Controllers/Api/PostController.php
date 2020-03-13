@@ -96,6 +96,7 @@ class PostController extends Controller
      * 検索機能
      *
      * @param Request $request
+     * @param Post $post
      * @return Response
      */
     public function search(Request $request, Post $post)
