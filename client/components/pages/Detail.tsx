@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect, useContext } from 'react';
 import {
   Segment,
   Container,
@@ -23,9 +23,11 @@ import { Comment as CommentType } from '../../types/comment';
 import DetailService from '../../repository/detail';
 import favorite from '../../repository/favorite';
 import Persist from '../../persist';
+import { LoadingContext } from '../../Router';
 
 const Detail = () => {
   const reactAlert = useAlert();
+  const { setLoading } = useContext(LoadingContext);
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -36,11 +38,13 @@ const Detail = () => {
   useEffect(() => {
     const detailFunc = async () => {
       if (!id) return;
+      setLoading(true);
       const res = await DetailService.getDetail(parseInt(id));
       setData(res.data);
+      setLoading(false);
     };
     detailFunc();
-  }, [id]);
+  }, [id, setLoading]);
 
   const onClickNonfavo = async () => {
     if (!id) return;
@@ -68,10 +72,12 @@ const Detail = () => {
 
   const onSubmitComment = async () => {
     if (!id) return;
+    setLoading(true);
     const res = await DetailService.registComment(parseInt(id), comment, name);
     if (!res.error) {
       window.location.reload();
     } else {
+      setLoading(false);
       if (!res.errorMessages) return;
       reactAlert.show(res.errorMessages[0], {
         type: types.ERROR,

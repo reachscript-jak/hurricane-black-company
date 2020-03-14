@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, FormEvent } from 'react';
+import React, { ChangeEvent, useState, FormEvent, useContext } from 'react';
 import { Container, Segment, Header, Divider, Grid, Form, Button, TextAreaProps } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -6,10 +6,12 @@ import { useAlert, types } from 'react-alert';
 
 import { COLOR_THEME } from '../../const';
 import PostService from '../../repository/post';
+import { LoadingContext } from '../../Router';
 
 const Post = () => {
   const history = useHistory();
   const reactAlert = useAlert();
+  const { setLoading } = useContext(LoadingContext);
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -23,13 +25,16 @@ const Post = () => {
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
 
   const onSubmitPost = async () => {
+    setLoading(true);
     const res = await PostService.registPost(title, body, name);
     if (!res.error) {
       reactAlert.show('ブラックストーリーを投稿しました', {
         type: 'success',
       });
+      setLoading(false);
       history.push('/');
     } else {
+      setLoading(false);
       if (!res.errorMessages) return;
       reactAlert.show(res.errorMessages[0], {
         type: types.ERROR,
