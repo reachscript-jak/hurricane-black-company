@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class CommentController extends Controller
 {
     /**
-     * コメント内容をcommentsテーブルに保存する
+     * コメント内容をCommentテーブルに保存
      *
      * @param Request $request
      * @param Comment $comment
