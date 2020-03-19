@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { List, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { Post } from '../../types/post';
 import PostService from '../../repository/post';
+import { LoadingContext } from '../../Router';
 
 type Props = {
   count: number;
@@ -13,16 +14,19 @@ type Props = {
 const TabNew = (props: Props) => {
   const { count } = props;
   const history = useHistory();
+  const { setLoading } = useContext(LoadingContext);
 
   const [data, setData] = useState();
 
   useEffect(() => {
     const postFunc = async () => {
+      setLoading(true);
       const res = await PostService.getPosts(count, 'new');
       setData(res.data.posts);
+      setLoading(false);
     };
     postFunc();
-  }, [count]);
+  }, [count, setLoading]);
 
   const onClickToDetail = (id: number) => {
     history.push(`/detail/${id}`);
