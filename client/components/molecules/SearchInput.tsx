@@ -21,8 +21,6 @@ const SearchInput = () => {
   );
 };
 
-export default SearchInput;
-
 const SCsearchContainer = styled.div`
   display: flex;
 `;
@@ -30,3 +28,5 @@ const SCsearchContainer = styled.div`
 const SCsearchInput = styled(Input)`
   width: 100%;
 `;
+
+export default SearchInput;
