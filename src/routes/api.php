@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['api']], function () {
     Route::resource('post', 'Api\PostController');
-    Route::get('post/{post}', 'Api\PostController@search');
     Route::resource('favorite', 'Api\FavoriteController');
     Route::resource('comment', 'Api\CommentController');
 });

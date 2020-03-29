@@ -21,10 +21,20 @@ class PostController extends Controller
     {
         $count = $request->input('count');
         $orderBy = $request->input('order_by');
+        $keyword = $request->input('keyword');
+
         if ($orderBy === 'new') {
-            $posts = $post->getAllPostsWithCommentsFavorite($count);
+            if (!empty($keyword)) {
+                $posts = $post->getSearchItemBySort($keyword, $orderBy);
+            } else {
+                $posts = $post->getAllPostsWithCommentsFavorite($count);
+            }
         } else {
-            $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count);
+            if (!empty($keyword)) {
+                $posts = $post->getSearchItem($keyword, $orderBy);
+            } else {
+                $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count);
+            }
         }
 
         $data = [
@@ -88,29 +98,6 @@ class PostController extends Controller
         $post->fill($request->all())->save();
 
         $data = [];
-
-        return response()->json($data, 200);
-    }
-
-    /**
-     * 検索機能
-     *
-     * @param Request $request
-     * @param Post $post
-     * @return Response
-     */
-    public function search(Request $request, Post $post)
-    {
-        $keyword = $request->input('keyword');
-        $orderBy = $request->input('order_by');
-
-        if (!empty($keyword)) {
-            $posts = $post->getSearchItem($keyword, $orderBy);
-        }
-
-        $data = [
-            'posts' => $posts
-        ];
 
         return response()->json($data, 200);
     }
