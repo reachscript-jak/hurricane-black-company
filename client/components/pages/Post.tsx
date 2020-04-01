@@ -7,6 +7,7 @@ import { useAlert, types } from 'react-alert';
 import { COLOR_THEME } from '../../const';
 import PostService from '../../repository/post';
 import { LoadingContext } from '../../Router';
+import BackButton from '../atoms/BackButton';
 
 const Post = () => {
   const history = useHistory();
@@ -44,6 +45,7 @@ const Post = () => {
 
   return (
     <SCcontainer>
+      <BackButton />
       <Segment raised textAlign="center">
         <Header as="h2" style={{ color: COLOR_THEME }}>
           ブラックストーリー投稿
