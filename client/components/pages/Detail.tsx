@@ -24,6 +24,7 @@ import DetailService from '../../repository/detail';
 import favorite from '../../repository/favorite';
 import Persist from '../../persist';
 import { LoadingContext } from '../../Router';
+import BackButton from '../atoms/BackButton';
 
 const Detail = () => {
   const reactAlert = useAlert();
@@ -87,6 +88,7 @@ const Detail = () => {
 
   return (
     <SCcontainer>
+      <BackButton />
       <Segment raised textAlign="center">
         {data ? (
           <>
