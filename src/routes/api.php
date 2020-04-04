@@ -21,4 +21,5 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('post', 'Api\PostController');
     Route::resource('favorite', 'Api\FavoriteController');
     Route::resource('comment', 'Api\CommentController');
+    Route::delete('favorite', 'Api\FavoriteController@destroy');
 });

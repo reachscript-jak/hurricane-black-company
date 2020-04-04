@@ -86,8 +86,14 @@ class FavoriteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Favorite $favorite)
     {
-        //
+        $unFavorite = $favorite->deleteFavorite($request->all());
+
+        $data = [
+            'post' => $unFavorite,
+        ];
+
+        return response()->json($data, 200);
     }
 }

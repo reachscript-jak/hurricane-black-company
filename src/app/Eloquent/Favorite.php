@@ -25,4 +25,9 @@ class Favorite extends Model
     {
         return Favorite::create($request);
     }
+
+    public function deleteFavorite(array $request)
+    {
+        Favorite::where('post_id', $request)->orderby('id', 'asc')->first()->delete();
+    }
 }
