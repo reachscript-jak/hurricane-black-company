@@ -21,4 +21,20 @@ export default {
       return genericError;
     }
   },
+  async removeFavorite(id: number): Promise<SuccessResult<any> | ErrorResult> {
+    const response = await axiosInstance.delete(`/favorite?post_id=${id}`).catch((e: AxiosError) => {
+      if (e.isAxiosError) {
+        return internalServerError;
+      }
+    });
+    if (response?.status === 200) {
+      return {
+        error: false,
+        data: response?.data,
+        errorMessages: null,
+      };
+    } else {
+      return genericError;
+    }
+  },
 };
