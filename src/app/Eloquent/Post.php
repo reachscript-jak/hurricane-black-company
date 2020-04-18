@@ -62,7 +62,7 @@ class Post extends Model
         if (!empty($keyword)) {
             $q = Post::withCount('favorites')
                 ->where('title', 'LIKE', "%{$keyword}%")
-                ->orWhere('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('body', 'LIKE', "%{$keyword}%")
                 ->withCount('comments')
                 ->orderBy($orderBy[0], $orderBy[1])
                 ->take($count);
@@ -81,7 +81,7 @@ class Post extends Model
         if (!empty($keyword)) {
             $q = Post::withCount('favorites')
                 ->where('title', 'LIKE', "%{$keyword}%")
-                ->orWhere('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('body', 'LIKE', "%{$keyword}%")
                 ->withCount('comments')
                 ->orderBy('favorites_count', 'DESC')
                 ->orderBy($orderBy[0], $orderBy[1])
