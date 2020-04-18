@@ -25,13 +25,13 @@ class PostController extends Controller
 
         if ($orderBy === 'new') {
             if (!empty($keyword)) {
-                $posts = $post->getSearchItemBySort($keyword);
+                $posts = $post->getSearchItemBySort($keyword, $orderBy);
             } else {
                 $posts = $post->getAllPostsWithCommentsFavorite($count);
             }
         } else {
             if (!empty($keyword)) {
-                $posts = $post->getSearchItem($keyword);
+                $posts = $post->getSearchItem($keyword, $orderBy);
             } else {
                 $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count);
             }
