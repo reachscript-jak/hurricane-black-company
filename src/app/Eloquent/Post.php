@@ -57,33 +57,44 @@ class Post extends Model
         return $this->hasMany('App\Eloquent\Favorite');
     }
 
-    public function getPosts($count, $orderBy = ['id', 'DESC'])
+    public function getAllPostsWithCommentsFavorite($count, $orderBy = ['id', 'DESC'], $keyword)
     {
-        return Post::orderBy($orderBy[0], $orderBy[1])->take($count)->get();
+        if (!empty($keyword)) {
+            $q = Post::withCount('favorites')
+                ->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('body', 'LIKE', "%{$keyword}%")
+                ->withCount('comments')
+                ->orderBy($orderBy[0], $orderBy[1])
+                ->take($count);
+        } else {
+            $q = Post::withCount('favorites')
+                ->withCount('comments')
+                ->orderBy($orderBy[0], $orderBy[1])
+                ->take($count);
+        }
+
+        return $q->get();
     }
 
-    public function getAllPosts($orderBy = ['id', 'DESC'])
+    public function getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count, $orderBy = ['id', 'DESC'], $keyword)
     {
-        return Post::orderBy($orderBy[0], $orderBy[1])->get()->all();
-    }
+        if (!empty($keyword)) {
+            $q = Post::withCount('favorites')
+                ->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('body', 'LIKE', "%{$keyword}%")
+                ->withCount('comments')
+                ->orderBy('favorites_count', 'DESC')
+                ->orderBy($orderBy[0], $orderBy[1])
+                ->take($count);
+        } else {
+            $q = Post::withCount('favorites')
+                ->withCount('comments')
+                ->orderBy('favorites_count', 'DESC')
+                ->orderBy($orderBy[0], $orderBy[1])
+                ->take($count);
+        }
 
-    public function getAllPostsWithCommentsFavorite($count, $orderBy = ['id', 'DESC'])
-    {
-        return Post::withCount('favorites')
-            ->withCount('comments')
-            ->orderBy($orderBy[0], $orderBy[1])
-            ->take($count)
-            ->get();
-    }
-
-    public function getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count, $orderBy = ['id', 'DESC'])
-    {
-        return Post::withCount('favorites')
-            ->withCount('comments')
-            ->orderBy('favorites_count', 'DESC')
-            ->orderBy($orderBy[0], $orderBy[1])
-            ->take($count)
-            ->get();
+        return $q->get();
     }
 
     public function getPostInfo($postId)
@@ -94,25 +105,5 @@ class Post extends Model
     public function createPost(array $formData)
     {
         return Post::create($formData);
-    }
-
-    public function getSearchItem($keyword, $orderBy = ['id', 'DESC'])
-    {
-        return Post::withCount('favorites')
-            ->where('title', 'LIKE', "%{$keyword}%")
-            ->orWhere('name', 'LIKE', "%{$keyword}%")
-            ->orderBy('favorites_count', 'DESC')
-            ->orderBy($orderBy[0], $orderBy[1])
-            ->get();
-    }
-
-    public function getSearchItemBySort($keyword, $orderBy = ['id', 'DESC'])
-    {
-        return Post::withCount('favorites')
-            ->where('title', 'LIKE', "%{$keyword}%")
-            ->orWhere('name', 'LIKE', "%{$keyword}%")
-            ->orderBy('created_at', 'DESC')
-            ->orderBy($orderBy[0], $orderBy[1])
-            ->get();
     }
 }
