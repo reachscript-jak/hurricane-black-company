@@ -22,19 +22,12 @@ class PostController extends Controller
         $count = $request->input('count');
         $orderBy = $request->input('order_by');
         $keyword = $request->input('keyword');
+        $orderByArray = ['id', 'DESC'];
 
         if ($orderBy === 'new') {
-            if (!empty($keyword)) {
-                $posts = $post->getSearchItemBySort($keyword, $orderBy);
-            } else {
-                $posts = $post->getAllPostsWithCommentsFavorite($count);
-            }
+            $posts = $post->getAllPostsWithCommentsFavorite($count, $orderByArray, $keyword);
         } else {
-            if (!empty($keyword)) {
-                $posts = $post->getSearchItem($keyword, $orderBy);
-            } else {
-                $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count);
-            }
+            $posts = $post->getAllPostsWithCommentsFavoriteOrderByFavoriteCount($count, $orderByArray, $keyword);
         }
 
         $data = [
