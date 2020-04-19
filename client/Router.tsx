@@ -9,7 +9,7 @@ import LoadingWithDimmer from './components/molecules/LoadingWithDimmer';
 import Home from './components/pages/Home';
 import Detail from './components/pages/Detail';
 import Post from './components/pages/Post';
-import { Loading } from './types/context';
+import { Loading, SearchKeyword } from './types/context';
 
 const alertOptions = {
   position: positions.TOP_CENTER,
@@ -19,23 +19,27 @@ const alertOptions = {
 };
 
 export const LoadingContext = createContext<Loading>({ loading: false, setLoading: () => {} });
+export const SearchKeywordContext = createContext<SearchKeyword>({ keyword: '', setKeyword: () => {} });
 
 const Router = () => {
   const [loading, setLoading] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   return (
     <SCcontainer>
       <AlertProvider template={AlertTemplate} {...alertOptions}>
         <LoadingContext.Provider value={{ loading, setLoading }}>
-          <BrowserRouter>
-            <HeaderLogo />
-            <LoadingWithDimmer />
-            <Switch>
-              <Route path="/" exact children={<Home />} />
-              <Route path="/detail/:id" children={<Detail />} />
-              <Route path="/post" children={<Post />} />
-            </Switch>
-          </BrowserRouter>
+          <SearchKeywordContext.Provider value={{ keyword, setKeyword }}>
+            <BrowserRouter>
+              <HeaderLogo />
+              <LoadingWithDimmer />
+              <Switch>
+                <Route path="/" exact children={<Home />} />
+                <Route path="/detail/:id" children={<Detail />} />
+                <Route path="/post" children={<Post />} />
+              </Switch>
+            </BrowserRouter>
+          </SearchKeywordContext.Provider>
         </LoadingContext.Provider>
       </AlertProvider>
     </SCcontainer>
