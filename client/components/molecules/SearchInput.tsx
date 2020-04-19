@@ -2,19 +2,26 @@ import React, { useContext } from 'react';
 import { Button, Input, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 
-import { LoadingContext } from '../../Router';
+import { SearchKeywordContext } from '../../Router';
 
-const SearchInput = () => {
-  const { setLoading } = useContext(LoadingContext);
-  const onClickSearch = () => {
-    setLoading(true);
-    setTimeout(() => setLoading(false), 3000);
-  };
+type Props = {
+  count: number;
+  orderBy: string;
+  onClickSearchButton: (count: number, orderBy: string, keyword: string) => void;
+};
+
+const SearchInput = (props: Props) => {
+  const { count, orderBy, onClickSearchButton } = props;
+  const { keyword, setKeyword } = useContext(SearchKeywordContext);
 
   return (
     <SCsearchContainer>
-      <SCsearchInput placeholder="投稿を検索する" />
-      <Button icon color="teal" onClick={onClickSearch}>
+      <SCsearchInput
+        placeholder="投稿を検索する"
+        onChange={(_e: React.ChangeEvent<HTMLInputElement>, data: { value: string }) => setKeyword(data.value)}
+        defaultValue={keyword}
+      />
+      <Button icon color="teal" onClick={() => onClickSearchButton(count, orderBy, keyword)}>
         <Icon name="search" />
       </Button>
     </SCsearchContainer>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Container, Segment, Tab, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -6,33 +6,52 @@ import { useHistory } from 'react-router-dom';
 import SearchInput from '../molecules/SearchInput';
 import TabPopular from '../templates/TabPopular';
 import TabNew from '../templates/TabNew';
+import { LoadingContext } from '../../Router';
+import PostService from '../../repository/post';
 
 const Home = () => {
   const history = useHistory();
+  const { setLoading } = useContext(LoadingContext);
 
   const [count, setCount] = useState(15);
+  const [data, setData] = useState();
 
   const panes = [
     {
       menuItem: '　　　人気順　　　',
       render: () => (
-        <Tab.Pane key="tabPopular" attached={false}>
-          <TabPopular count={count} />
-        </Tab.Pane>
+        <>
+          <SearchInput count={count} orderBy="new" onClickSearchButton={onClickSearchButton} />
+          <Tab.Pane key="tabPopular" attached={false}>
+            <TabPopular count={count} data={data} getSearchData={onClickSearchButton} />
+          </Tab.Pane>
+        </>
       ),
     },
     {
       menuItem: '　　　新着順　　　',
       render: () => (
-        <Tab.Pane key="tabNew" attached={false}>
-          <TabNew count={count} />
-        </Tab.Pane>
+        <>
+          <SearchInput count={count} orderBy="new" onClickSearchButton={onClickSearchButton} />
+          <Tab.Pane key="tabNew" attached={false}>
+            <TabNew count={count} data={data} getSearchData={onClickSearchButton} />
+          </Tab.Pane>
+        </>
       ),
     },
   ];
 
   const onClickToPost = () => history.push('/post');
   const onClickCountButton = (num: number) => setCount(num);
+  const onClickSearchButton = (count: number, orderBy: string, keyword: string) => {
+    const searchPostFunc = async () => {
+      setLoading(true);
+      const res = await PostService.getPosts(count, orderBy, keyword);
+      setData(res.data.posts);
+      setLoading(false);
+    };
+    searchPostFunc();
+  };
 
   return (
     <>
@@ -45,7 +64,6 @@ const Home = () => {
           <Button.Content hidden>(ｏﾟДﾟ)＝◯)`3゜)∵</Button.Content>
         </Button>
         <Segment raised textAlign="center">
-          <SearchInput />
           <SCmenuContainer>
             <Tab menu={{ pointing: true, secondary: true, color: 'teal' }} panes={panes} />
           </SCmenuContainer>
