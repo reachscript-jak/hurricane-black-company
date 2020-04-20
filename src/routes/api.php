@@ -17,4 +17,5 @@ Route::group(['middleware' => ['api']], function() {
     Route::resource('/post', 'Api\PostController', ['except' => ['edit','create']]);
     Route::resource('/favorite', 'Api\FavoriteController', ['only' => ['store']]);
     Route::resource('/comment' , 'Api\CommentController', ['only' => ['store']]);
+    Route::delete('favorite', 'Api\FavoriteController@destroy');
 });

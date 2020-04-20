@@ -49,19 +49,34 @@ const Detail = () => {
 
   const onClickNonfavo = async () => {
     if (!id) return;
-    if (isPushNonfavo) return;
-    const res = await favorite.registFavorite(parseInt(id));
-    if (!res.error) {
-      Persist.set(id?.toString(), !isPushNonfavo);
-      const favoriteCount = data.favoriteCount + 1;
-      const newData = { ...data, favoriteCount };
-      setData(newData);
-      setIsPushNonfavo(true);
+    if (!isPushNonfavo) {
+      const res = await favorite.registFavorite(parseInt(id));
+      if (!res.error) {
+        Persist.set(id?.toString(), !isPushNonfavo);
+        const favoriteCount = data.favoriteCount + 1;
+        const newData = { ...data, favoriteCount };
+        setData(newData);
+        setIsPushNonfavo(true);
+      } else {
+        if (!res.errorMessages) return;
+        reactAlert.show(res.errorMessages[0], {
+          type: types.ERROR,
+        });
+      }
     } else {
-      if (!res.errorMessages) return;
-      reactAlert.show(res.errorMessages[0], {
-        type: types.ERROR,
-      });
+      const res = await favorite.removeFavorite(parseInt(id));
+      if (!res.error) {
+        Persist.remove(id?.toString());
+        const favoriteCount = data.favoriteCount - 1;
+        const newData = { ...data, favoriteCount };
+        setData(newData);
+        setIsPushNonfavo(false);
+      } else {
+        if (!res.errorMessages) return;
+        reactAlert.show(res.errorMessages[0], {
+          type: types.ERROR,
+        });
+      }
     }
   };
 

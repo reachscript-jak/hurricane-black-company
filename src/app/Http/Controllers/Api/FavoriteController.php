@@ -25,4 +25,23 @@ class FavoriteController extends Controller
 
         return response()->json($data, 200);
     }
+
+    /**
+     * ヒドイイネをFavoriteテーブルにから削除
+     *
+     * @param  Request  $request
+     * @param  Favorite $favorite
+     * @return Response
+     */
+    public function destroy(Request $request, Favorite $favorite)
+     {
+        $unFavorite = $favorite->deleteFavorite($request->all());
+
+        $data = [
+            'post' => $unFavorite,
+        ];
+
+        return response()->json($data, 200);
+     }
+
 }
