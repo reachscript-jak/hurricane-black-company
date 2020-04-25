@@ -1,29 +1,33 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { Post } from '../../types/post';
-import { SearchKeywordContext } from '../../Router';
+import PostService from '../../repository/post';
 
 type Props = {
   count: number;
-  data: Post[];
-  getSearchData: (count: number, orderBy: string, keyword: string) => void;
+  keyword: string;
 };
 
 const TabPopular = (props: Props) => {
-  const { count, data, getSearchData } = props;
+  const { count, keyword } = props;
   const history = useHistory();
-  const { keyword } = useContext(SearchKeywordContext);
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const postFunc = async () => {
+      const res = await PostService.getPosts(count, '', keyword);
+      setData(res.data.posts);
+    };
+    postFunc();
+  }, [count, keyword]);
 
   const onClickToDetail = (id: number) => {
     history.push(`/detail/${id}`);
   };
-
-  useEffect(() => {
-    getSearchData(count, '', keyword);
-  }, [count]);
 
   return (
     <SCcontainer>

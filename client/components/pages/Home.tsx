@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Segment, Tab, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -6,24 +6,21 @@ import { useHistory } from 'react-router-dom';
 import SearchInput from '../molecules/SearchInput';
 import TabPopular from '../templates/TabPopular';
 import TabNew from '../templates/TabNew';
-import { LoadingContext } from '../../Router';
-import PostService from '../../repository/post';
 
 const Home = () => {
   const history = useHistory();
-  const { setLoading } = useContext(LoadingContext);
 
   const [count, setCount] = useState(15);
-  const [data, setData] = useState();
+  const [keyword, setKeyword] = useState('');
 
   const panes = [
     {
       menuItem: '　　　人気順　　　',
       render: () => (
         <>
-          <SearchInput count={count} orderBy="new" onClickSearchButton={onClickSearchButton} />
+          <SearchInput onChangeSetKeyword={setKeyword} />
           <Tab.Pane key="tabPopular" attached={false}>
-            <TabPopular count={count} data={data} getSearchData={onClickSearchButton} />
+            <TabPopular count={count} keyword={keyword} />
           </Tab.Pane>
         </>
       ),
@@ -32,9 +29,9 @@ const Home = () => {
       menuItem: '　　　新着順　　　',
       render: () => (
         <>
-          <SearchInput count={count} orderBy="new" onClickSearchButton={onClickSearchButton} />
+          <SearchInput onChangeSetKeyword={setKeyword} />
           <Tab.Pane key="tabNew" attached={false}>
-            <TabNew count={count} data={data} getSearchData={onClickSearchButton} />
+            <TabNew count={count} keyword={keyword} />
           </Tab.Pane>
         </>
       ),
@@ -43,15 +40,6 @@ const Home = () => {
 
   const onClickToPost = () => history.push('/post');
   const onClickCountButton = (num: number) => setCount(num);
-  const onClickSearchButton = (count: number, orderBy: string, keyword: string) => {
-    const searchPostFunc = async () => {
-      setLoading(true);
-      const res = await PostService.getPosts(count, orderBy, keyword);
-      setData(res.data.posts);
-      setLoading(false);
-    };
-    searchPostFunc();
-  };
 
   return (
     <>
