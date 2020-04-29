@@ -18,7 +18,7 @@ const Home = () => {
       menuItem: '　　　人気順　　　',
       render: () => (
         <>
-          <SearchInput onChangeSetKeyword={setKeyword} />
+          <SearchInput onClickSetKeyword={setKeyword} />
           <Tab.Pane key="tabPopular" attached={false}>
             <TabPopular count={count} keyword={keyword} />
           </Tab.Pane>
@@ -29,7 +29,7 @@ const Home = () => {
       menuItem: '　　　新着順　　　',
       render: () => (
         <>
-          <SearchInput onChangeSetKeyword={setKeyword} />
+          <SearchInput onClickSetKeyword={setKeyword} />
           <Tab.Pane key="tabNew" attached={false}>
             <TabNew count={count} keyword={keyword} />
           </Tab.Pane>
