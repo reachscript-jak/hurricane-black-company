@@ -1,32 +1,29 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import { Post } from '../../types/post';
 import PostService from '../../repository/post';
-import { LoadingContext } from '../../Router';
 
 type Props = {
   count: number;
+  keyword: string;
 };
 
 const TabPopular = (props: Props) => {
-  const { count } = props;
+  const { count, keyword } = props;
   const history = useHistory();
-  const { setLoading } = useContext(LoadingContext);
 
   const [data, setData] = useState();
 
   useEffect(() => {
     const postFunc = async () => {
-      setLoading(true);
-      const res = await PostService.getPosts(count, '');
+      const res = await PostService.getPosts(count, '', keyword);
       setData(res.data.posts);
-      setLoading(false);
     };
     postFunc();
-  }, [count, setLoading]);
+  }, [count, keyword]);
 
   const onClickToDetail = (id: number) => {
     history.push(`/detail/${id}`);

@@ -5,12 +5,14 @@ import { internalServerError, genericError } from './share';
 import { SuccessResult, ErrorResult } from '../types/api';
 
 export default {
-  async getPosts(count: number, orderBy: string): Promise<SuccessResult<any> | ErrorResult> {
-    const response = await axiosInstance.get(`/post?count=${count}&order_by=${orderBy}`).catch((e: AxiosError) => {
-      if (e.isAxiosError) {
-        return internalServerError;
-      }
-    });
+  async getPosts(count: number, orderBy: string, keyword: string): Promise<SuccessResult<any> | ErrorResult> {
+    const response = await axiosInstance
+      .get(`/post?count=${count}&order_by=${orderBy}&keyword=${keyword}`)
+      .catch((e: AxiosError) => {
+        if (e.isAxiosError) {
+          return internalServerError;
+        }
+      });
     if (response?.status === 200) {
       return {
         error: false,

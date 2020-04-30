@@ -11,22 +11,29 @@ const Home = () => {
   const history = useHistory();
 
   const [count, setCount] = useState(15);
+  const [keyword, setKeyword] = useState('');
 
   const panes = [
     {
       menuItem: '　　　人気順　　　',
       render: () => (
-        <Tab.Pane key="tabPopular" attached={false}>
-          <TabPopular count={count} />
-        </Tab.Pane>
+        <>
+          <SearchInput onClickSetKeyword={setKeyword} />
+          <Tab.Pane key="tabPopular" attached={false}>
+            <TabPopular count={count} keyword={keyword} />
+          </Tab.Pane>
+        </>
       ),
     },
     {
       menuItem: '　　　新着順　　　',
       render: () => (
-        <Tab.Pane key="tabNew" attached={false}>
-          <TabNew count={count} />
-        </Tab.Pane>
+        <>
+          <SearchInput onClickSetKeyword={setKeyword} />
+          <Tab.Pane key="tabNew" attached={false}>
+            <TabNew count={count} keyword={keyword} />
+          </Tab.Pane>
+        </>
       ),
     },
   ];
@@ -45,7 +52,6 @@ const Home = () => {
           <Button.Content hidden>(ｏﾟДﾟ)＝◯)`3゜)∵</Button.Content>
         </Button>
         <Segment raised textAlign="center">
-          <SearchInput />
           <SCmenuContainer>
             <Tab menu={{ pointing: true, secondary: true, color: 'teal' }} panes={panes} />
           </SCmenuContainer>
